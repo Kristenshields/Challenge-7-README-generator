@@ -6,34 +6,6 @@ import generateMarkdown from "./utils/generateMarkdown.js";
 
 // TODO: Create an array of questions for user input
 const questions = [
-    //Enter your Email Address:
-    {
-        type: "input",
-        name: "emailAddress",
-        message: "Enter your Email Address:",
-        validate: userEmailInput => {
-            if (userEmailInput) {
-                return true;
-            } else {
-                console.log("Please enter your email address!");
-                return false;
-            }
-        }
-    },
-    //Enter your gitHub Username:
-    {
-        type: "input",
-        name: "username",
-        message: "Enter your gitHub Username:",
-        validate: userNameInput => {
-            if (userNameInput) {
-                return true;
-            } else {
-                console.log("Please enter Username!");
-                return false;
-            }
-        }
-    },
     //Enter title of project:
     {
         type: "input",
@@ -47,7 +19,6 @@ const questions = [
                 return false;
             }
         }
-
     },
     //Description of project:
     {
@@ -77,7 +48,62 @@ const questions = [
                 return false;
             }
         }
+    },
+    //usage information
+    {
+        type: "input",
+        name: "usage",
+        message: "Enter usage information:",
+        validate: usageInput => {
+            if (usageInput) {
+                return true;
+            } else {
+                console.log("Please enter usage information!");
+                return false;
+            }
+        }
+    },
+    //Any Contributors:
+    {
+        type: "confirm",
+        name: "confirmContributors",
+        message: "Was there any contributors?",
+        default: false
+    },
+    {
+        type: "input",
+        name: "contributors",
+        message: "Name of contributors:",
+        validate: contributors => {
+            if (contributors) {
+                return true;
+            } else {
+                console.log("this field can't be empty!")
+                return false;
+            }
+        },
+        when: ({ confirmContributors }) => {
+            if (confirmContributors) {
+                return true;
+            } else {
+                return false;
+            }
+        }
 
+    },
+    //test instructions:
+    {
+        type: "input",
+        name: "tests",
+        message: "Enter test instructions:",
+        validate: testInstructions => {
+            if (testInstructions) {
+                return true;
+            } else {
+                console.log("Please enter test instructions!")
+                return false;
+            }
+        }
     },
     //What license will you use:
     {
@@ -86,7 +112,6 @@ const questions = [
         message: "Do you have a license?",
         default: false
     },
-
     {
         type: "list",
         name: "license",
@@ -111,46 +136,41 @@ const questions = [
             }
         }
     },
-
-    //Any Contributors:
-    {
-        type: "confirm",
-        name: "confirmContributors",
-        message: "Was there any contributors?",
-        default: false
-    },
+    //Enter your gitHub Username:
     {
         type: "input",
-        name: "contributors",
-        message: "Name of contributors:",
-        validate: contributors => {
-            if (contributors) {
-                return true
-            } else {
-                console.log("this field can't be empty!")
-                return false
-            }
-        },
-        when: ({confirmContributors}) => {
-            if (confirmContributors) {
+        name: "username",
+        message: "Enter your gitHub Username:",
+        validate: userNameInput => {
+            if (userNameInput) {
                 return true;
             } else {
+                console.log("Please enter Username!");
                 return false;
             }
         }
-
-    }
-    //Questions:
-    //testing
-    //Test instructions:
-
-    //badges: 
+    },
+    //Enter your Email Address:
+    {
+        type: "input",
+        name: "emailAddress",
+        message: "Enter your Email Address:",
+        validate: userEmailInput => {
+            if (userEmailInput) {
+                return true;
+            } else {
+                console.log("Please enter your email address!");
+                return false;
+            }
+        }
+    },
+//questions
 ];
 
 // TODO: Create a function to write README file
-function writeToFile(data) { 
-    fs.writeFile( "./dist/README.md", data, error => {
-        if(error) {
+function writeToFile(data) {
+    fs.writeFile("./dist/README.md", data, error => {
+        if (error) {
             console.log(error);
         } else {
             console.log("README generated!");
@@ -160,7 +180,9 @@ function writeToFile(data) {
 
 // TODO: Create a function to initialize app
 function init() {
-    return inquirer.prompt(questions).then(readmeData => generateMarkdown(readmeData)).then(markedDowncontent => writeToFile(markedDowncontent));
+    return inquirer.prompt(questions)
+    .then(readmeData => generateMarkdown(readmeData))
+    .then(markedDowncontent => writeToFile(markedDowncontent));
 }
 
 // Function call to initialize app
