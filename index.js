@@ -164,7 +164,7 @@ const questions = [
             }
         }
     },
-//questions
+    //questions
 ];
 
 // TODO: Create a function to write README file
@@ -181,8 +181,8 @@ function writeToFile(data) {
 // TODO: Create a function to initialize app
 function init() {
     return inquirer.prompt(questions)
-    .then(readmeData => generateMarkdown(readmeData))
-    .then(markedDowncontent => writeToFile(markedDowncontent));
+        .then(readmeData => generateMarkdown(readmeData))
+        .then(markedDowncontent => writeToFile(markedDowncontent));
 }
 
 // Function call to initialize app
